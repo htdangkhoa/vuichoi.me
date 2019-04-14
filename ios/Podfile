@@ -1,0 +1,11 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
+
+target 'new_ggm' do
+  pod 'GoogleMaps'  # <~~ remove this line if you do not want to support GoogleMaps on iOS
+  pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+end
