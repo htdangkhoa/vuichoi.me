@@ -6,10 +6,12 @@ import {
 import AuthStack from "./auth";
 import Home from "../ui/home";
 import EnterLocation from "../ui/enterlocation";
+import EnterStopPoints from "../ui/enterStopPoints";
 
 const AppStack = createStackNavigator(
   {
     Home: Home,
+    "Enter Stop Points": EnterStopPoints,
     EnterLocation: EnterLocation
   },
   {

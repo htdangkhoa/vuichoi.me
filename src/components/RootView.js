@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { SafeAreaView } from "react-native";
 import {
   Container,
   Header,
@@ -24,17 +25,16 @@ class RootView extends Component {
 
     const currentIndex = navigation.dangerouslyGetParent().state.index;
 
-    console.log(navigation);
-
-    console.log(navigation.dangerouslyGetParent());
-
     return (
       <Container>
         <Header>
           <Left>
             {currentIndex != 0 && (
               <Button transparent iconLeft onPress={() => navigation.goBack()}>
-                <Icon name="arrow-back" style={{ marginLeft: 0, marginRight: 4 }} />
+                <Icon
+                  name="arrow-back"
+                  style={{ marginLeft: 0, marginRight: 4 }}
+                />
                 <Text>Back</Text>
               </Button>
             )}
@@ -45,7 +45,7 @@ class RootView extends Component {
           <Right />
         </Header>
 
-        {this.props.children}
+        <SafeAreaView style={{ flex: 1 }}>{this.props.children}</SafeAreaView>
       </Container>
     );
   }

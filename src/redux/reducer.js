@@ -10,5 +10,5 @@ const root = (state = initialState, action) => {
 };
 
 export const rootReducer = combineReducers({
-  root
+  root,
 });
