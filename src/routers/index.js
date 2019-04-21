@@ -11,7 +11,7 @@ import EnterStopPoints from "../ui/enterStopPoints";
 const AppStack = createStackNavigator(
   {
     Home: Home,
-    "Enter Stop Points": EnterStopPoints,
+    "Stop Points": EnterStopPoints,
     EnterLocation: EnterLocation
   },
   {

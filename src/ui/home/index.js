@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, TextInput, Modal } from "react-native";
+import { View, Alert } from "react-native";
 import { Button, Text, Icon } from "native-base";
 import { Polyline, Marker } from "react-native-maps";
 import RootView from "../../components/RootView";
@@ -8,6 +8,8 @@ import MapView from "../../components/MapView";
 import style from "./style";
 import { decode } from "@mapbox/polyline";
 import { onDirections } from "../../network";
+import InputLocation from "../../components/InputLocation";
+import { isEmpty } from "lodash";
 
 const REQUEST_ENTER_START_POINT = "REQUEST_ENTER_START_POINT";
 
@@ -114,56 +116,39 @@ export default class Home extends Component {
             />
 
             {this.state.markers.map((coord, index) => (
-              <Marker coordinate={coord} key={`${index}`} />
+              <Marker
+                coordinate={coord}
+                title="dsadsasda"
+                key={`${index}`}
+                onPress={() => console.log("press on marker")}
+              />
             ))}
           </MapView>
 
           <View style={style.placeContainer}>
-            <TouchableOpacity
+            <InputLocation
               onPress={() => {
                 this.setState({
                   showModal: true,
                   requestId: REQUEST_ENTER_START_POINT
                 });
               }}
-            >
-              <View style={style.textInputContainer}>
-                <Icon name="locate" style={style.icon} />
-                <TextInput
-                  placeholder="Enter Start Point"
-                  editable={false}
-                  selectTextOnFocus={false}
-                  contextMenuHidden={false}
-                  value={this.state.startPoint.description || ""}
-                  style={style.textInput}
-                  pointerEvents="none"
-                  underlineColorAndroid="transparent"
-                />
-              </View>
-            </TouchableOpacity>
+              iconName="crosshair"
+              placeholder="Enter Start Point"
+              value={this.state.startPoint.description}
+            />
 
-            <TouchableOpacity
+            <InputLocation
               onPress={() => {
                 this.setState({
                   showModal: true,
                   requestId: REQUEST_ENTER_END_POINT
                 });
               }}
-            >
-              <View style={style.textInputContainer}>
-                <Icon name="pin" style={style.icon} />
-                <TextInput
-                  placeholder="Enter End Point"
-                  editable={false}
-                  selectTextOnFocus={false}
-                  contextMenuHidden={false}
-                  value={this.state.endPoint.description || ""}
-                  style={style.textInput}
-                  pointerEvents="none"
-                  underlineColorAndroid="transparent"
-                />
-              </View>
-            </TouchableOpacity>
+              iconName="map-pin"
+              placeholder="Enter End Point"
+              value={this.state.endPoint.description}
+            />
           </View>
 
           <SearchModal
@@ -192,35 +177,26 @@ export default class Home extends Component {
           <Button
             full
             style={style.btnNext}
-            onPress={() =>
-              navigation.navigate("Enter Stop Points", {
+            onPress={() => {
+              if (
+                isEmpty(this.state.startPoint) ||
+                isEmpty(this.state.endPoint)
+              ) {
+                return Alert.alert(
+                  "Error",
+                  "Please enter both Start Point and End Point.",
+                  [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+                );
+              }
+
+              navigation.navigate("Stop Points", {
                 startPoint: this.state.startPoint,
                 endPoint: this.state.endPoint
-              })
-            }
+              });
+            }}
           >
             <Text>Next</Text>
           </Button>
-
-          {/* <Modal visible={true} transparent>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "column",
-                justifyContent: "flex-end",
-                backgroundColor: "#0000004D"
-              }}
-            >
-              <View
-                style={{
-                  flex: 0.4,
-                  backgroundColor: "red",
-                  borderTopLeftRadius: 15,
-                  borderTopRightRadius: 15
-                }}
-              />
-            </View>
-          </Modal> */}
         </View>
       </RootView>
     );
